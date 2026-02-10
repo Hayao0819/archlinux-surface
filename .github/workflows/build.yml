@@ -21,6 +21,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache pacman packages
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/pacman/pkg
+          key: pacman-${{ runner.os }}-${{ hashFiles('packages.x86_64') }}
+          restore-keys: |
+            pacman-${{ runner.os }}-
+
       - name: Initialize pacman keyring
         run: |
           pacman-key --init
